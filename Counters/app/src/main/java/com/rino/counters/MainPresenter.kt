@@ -1,7 +1,7 @@
 package com.rino.counters
 
-class MainPresenter(val view: MainView) {
-    val model = CountersModel()
+class MainPresenter(private val view: MainView) {
+    private val model = CountersModel()
 
     //Архитектурная ошибка. В качестве практического задания -- исправить
     fun counterClick(id: Int){

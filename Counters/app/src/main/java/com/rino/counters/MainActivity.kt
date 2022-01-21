@@ -1,27 +1,22 @@
 package com.rino.counters
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.rino.counters.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), MainView {
 
     private lateinit var binding: ActivityMainBinding
-    private val presenter = MainPresenter(this)
+    private val presenter = MainPresenterImpl(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val listener = View.OnClickListener {
-            presenter.counterClick(it.id)
-        }
-
-        binding.btnCounter1.setOnClickListener(listener)
-        binding.btnCounter2.setOnClickListener(listener)
-        binding.btnCounter3.setOnClickListener(listener)
+        binding.btnCounter1.setOnClickListener { presenter.onCounter1Clicked() }
+        binding.btnCounter2.setOnClickListener { presenter.onCounter2Clicked() }
+        binding.btnCounter3.setOnClickListener { presenter.onCounter3Clicked() }
     }
 
     //Подсказка к ПЗ: поделить на 3 отдельные функции и избавиться от index

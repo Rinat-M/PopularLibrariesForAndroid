@@ -11,20 +11,30 @@ class MainActivity : AppCompatActivity(), MainView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnCounter1.setOnClickListener { presenter.onCounter1Clicked() }
-        binding.btnCounter2.setOnClickListener { presenter.onCounter2Clicked() }
-        binding.btnCounter3.setOnClickListener { presenter.onCounter3Clicked() }
+        setListeners()
     }
 
-    //Подсказка к ПЗ: поделить на 3 отдельные функции и избавиться от index
-    override fun setButtonText(index: Int, text: String) {
-        when (index) {
-            0 -> binding.btnCounter1.text = text
-            1 -> binding.btnCounter2.text = text
-            2 -> binding.btnCounter3.text = text
+    private fun setListeners() {
+        with(binding) {
+            btnCounter1.setOnClickListener { presenter.onCounter1Clicked() }
+            btnCounter2.setOnClickListener { presenter.onCounter2Clicked() }
+            btnCounter3.setOnClickListener { presenter.onCounter3Clicked() }
         }
+    }
+
+    override fun setCounter1(value: Int) {
+        binding.btnCounter1.text = value.toString()
+    }
+
+    override fun setCounter2(value: Int) {
+        binding.btnCounter2.text = value.toString()
+    }
+
+    override fun setCounter3(value: Int) {
+        binding.btnCounter3.text = value.toString()
     }
 }

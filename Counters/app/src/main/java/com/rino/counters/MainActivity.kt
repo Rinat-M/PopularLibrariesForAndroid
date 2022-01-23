@@ -1,35 +1,40 @@
 package com.rino.counters
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.rino.counters.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), MainView {
 
-    private var vb: ActivityMainBinding? = null
-    val presenter = MainPresenter(this)
+    private lateinit var binding: ActivityMainBinding
+    private val presenter = MainPresenterImpl(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        vb = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(vb?.root)
 
-        val listener = View.OnClickListener {
-            presenter.counterClick(it.id)
-        }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        vb?.btnCounter1?.setOnClickListener(listener)
-        vb?.btnCounter2?.setOnClickListener(listener)
-        vb?.btnCounter3?.setOnClickListener(listener)
+        setListeners()
     }
 
-    //Подсказка к ПЗ: поделить на 3 отдельные функции и избавиться от index
-    override fun setButtonText(index: Int, text: String) {
-        when (index) {
-            0 -> vb?.btnCounter1?.text = text
-            1 -> vb?.btnCounter2?.text = text
-            2 -> vb?.btnCounter3?.text = text
+    private fun setListeners() {
+        with(binding) {
+            btnCounter1.setOnClickListener { presenter.onCounter1Clicked() }
+            btnCounter2.setOnClickListener { presenter.onCounter2Clicked() }
+            btnCounter3.setOnClickListener { presenter.onCounter3Clicked() }
         }
+    }
+
+    override fun setCounter1(value: Int) {
+        binding.btnCounter1.text = value.toString()
+    }
+
+    override fun setCounter2(value: Int) {
+        binding.btnCounter2.text = value.toString()
+    }
+
+    override fun setCounter3(value: Int) {
+        binding.btnCounter3.text = value.toString()
     }
 }

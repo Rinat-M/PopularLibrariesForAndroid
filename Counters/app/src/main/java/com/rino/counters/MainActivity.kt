@@ -1,13 +1,14 @@
 package com.rino.counters
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.rino.counters.databinding.ActivityMainBinding
+import moxy.MvpAppCompatActivity
+import moxy.ktx.moxyPresenter
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : MvpAppCompatActivity(), MainView {
 
     private lateinit var binding: ActivityMainBinding
-    private val presenter = MainPresenterImpl(this)
+    private val presenter by moxyPresenter { MainPresenterImpl() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

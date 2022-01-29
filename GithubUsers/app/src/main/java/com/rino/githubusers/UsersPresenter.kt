@@ -3,7 +3,12 @@ package com.rino.githubusers
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 
-class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router) : MvpPresenter<UsersView>() {
+class UsersPresenter(
+    private val usersRepository: GithubUsersRepository,
+    private val router: Router,
+    private val screens: IScreens
+) : MvpPresenter<UsersView>() {
+
     class UsersListPresenter : IUserListPresenter {
         val users = mutableListOf<GithubUser>()
         override var itemClickListener: ((UserItemView) -> Unit)? = null
@@ -24,12 +29,13 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router) : MvpPr
         loadData()
 
         usersListPresenter.itemClickListener = { itemView ->
-            //TODO: переход на экран пользователя c помощью router.navigateTo
+            val user = usersListPresenter.users[itemView.pos]
+            router.navigateTo(screens.user(user.id))
         }
     }
 
-    fun loadData() {
-        val users = usersRepo.getUsers()
+    private fun loadData() {
+        val users = usersRepository.getUsers()
         usersListPresenter.users.addAll(users)
         viewState.updateList()
     }

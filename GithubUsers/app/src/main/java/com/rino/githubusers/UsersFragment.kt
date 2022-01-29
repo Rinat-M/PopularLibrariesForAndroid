@@ -1,8 +1,10 @@
 package com.rino.githubusers
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rino.githubusers.databinding.FragmentUsersBinding
 import moxy.MvpAppCompatFragment
@@ -13,8 +15,10 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         fun newInstance() = UsersFragment()
     }
 
-    val presenter: UsersPresenter by moxyPresenter { UsersPresenter(GithubUsersRepo(), App.instance.router) }
-    var adapter: UsersRVAdapter? = null
+    private val presenter: UsersPresenter by moxyPresenter {
+        UsersPresenter(GithubUsersRepository(), App.instance.router, AndroidScreens())
+    }
+    private var adapter: UsersRVAdapter? = null
 
     private var vb: FragmentUsersBinding? = null
 
@@ -30,10 +34,12 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     override fun init() {
         vb?.rvUsers?.layoutManager = LinearLayoutManager(context)
+        vb?.rvUsers?.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
         adapter = UsersRVAdapter(presenter.usersListPresenter)
         vb?.rvUsers?.adapter = adapter
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun updateList() {
         adapter?.notifyDataSetChanged()
     }

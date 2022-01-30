@@ -1,6 +1,8 @@
 package com.rino.githubusers
 
+import android.util.Log
 import com.github.terrakok.cicerone.Router
+import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 
 class UsersPresenter(
@@ -8,6 +10,10 @@ class UsersPresenter(
     private val router: Router,
     private val screens: IScreens
 ) : MvpPresenter<UsersView>() {
+
+    companion object {
+        private const val TAG = "UsersPresenter"
+    }
 
     class UsersListPresenter : IUserListPresenter {
         val users = mutableListOf<GithubUser>()
@@ -23,6 +29,8 @@ class UsersPresenter(
 
     val usersListPresenter = UsersListPresenter()
 
+    private lateinit var usersDisposable: Disposable
+
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.init()
@@ -35,12 +43,18 @@ class UsersPresenter(
     }
 
     private fun loadData() {
-        val users = usersRepository.getUsers()
-        usersListPresenter.users.addAll(users)
-        viewState.updateList()
+        usersDisposable = usersRepository.getUsers()
+            .subscribe(
+                { users ->
+                    usersListPresenter.users.addAll(users)
+                    viewState.updateList()
+                },
+                { throwable -> Log.e(TAG, throwable.stackTraceToString()) }
+            )
     }
 
     fun backPressed(): Boolean {
+        usersDisposable.dispose()
         router.exit()
         return true
     }

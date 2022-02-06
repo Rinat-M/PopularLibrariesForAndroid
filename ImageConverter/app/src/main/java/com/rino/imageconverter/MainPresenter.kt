@@ -10,6 +10,8 @@ class MainPresenter : MvpPresenter<MainView>() {
 
     fun convertImageToPng() = viewState.convertImageToPng()
 
+    fun convertImageToPngOnBackground() = viewState.convertImageToPngOnBackground()
+
     fun convertImageToPngAfterCheckingPermission() = viewState.convertImageToPngAfterCheckingPermission()
 
 }

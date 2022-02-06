@@ -10,13 +10,16 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.os.Environment.getExternalStoragePublicDirectory
-import android.os.PersistableBundle
 import android.provider.MediaStore
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.rino.imageconverter.databinding.ActivityMainBinding
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
 import java.io.File
@@ -38,6 +41,8 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
     private var bitmapUri: Uri? = null
 
+    private var disposable: Disposable? = null
+
     private val getContentLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             bitmapUri = uri
@@ -47,7 +52,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
-                presenter.convertImageToPng()
+                presenter.convertImageToPngOnBackground()
             } else {
                 binding.root.showSnackBar(
                     R.string.need_permissions_to_write_storage,
@@ -100,8 +105,8 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     }
 
     override fun convertImageToPng() {
-        val fileName: String =
-            SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val sdf = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
+        val fileName: String = sdf.format(Date())
 
         val fileOutputStream: OutputStream
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -141,8 +146,28 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         fileOutputStream.use {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
         }
+    }
 
-        showToast(R.string.completed_successfully)
+    override fun convertImageToPngOnBackground() {
+        val imageConversionCompletable = Completable.create { emitter ->
+            presenter.convertImageToPng()
+            emitter.onComplete()
+        }
+
+        disposable = imageConversionCompletable
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    Log.d(TAG, this.getString(R.string.completed_successfully))
+                    showToast(R.string.completed_successfully)
+                },
+                {
+                    val msg = "An error occurred while converting the image"
+                    Log.e(TAG, msg, it)
+                    showToast("$msg: $it")
+                }
+            )
     }
 
     override fun convertImageToPngAfterCheckingPermission() {
@@ -151,7 +176,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
                 TAG,
                 "In SDK=${Build.VERSION.SDK_INT}  WRITE_EXTERNAL_STORAGE permission check is not required"
             )
-            presenter.convertImageToPng()
+            presenter.convertImageToPngOnBackground()
             return
         }
 
@@ -161,7 +186,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED -> {
                 Log.d(TAG, "WRITE_EXTERNAL_STORAGE permission is granted")
-                presenter.convertImageToPng()
+                presenter.convertImageToPngOnBackground()
             }
             shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) -> {
                 binding.root.showSnackBar(
@@ -170,14 +195,18 @@ class MainActivity : MvpAppCompatActivity(), MainView {
                     action = { this.openAppSystemSettings() }
                 )
             }
-            else -> {
-                requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            }
+
+            else -> requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putParcelable(BITMAP_URI_KEY, bitmapUri)
         super.onSaveInstanceState(outState)
+    }
+
+    override fun onDestroy() {
+        disposable?.dispose()
+        super.onDestroy()
     }
 }

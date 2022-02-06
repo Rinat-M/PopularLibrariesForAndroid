@@ -11,5 +11,6 @@ interface MainView : MvpView {
 
     fun selectImage()
     fun convertImageToPng()
+    fun convertImageToPngOnBackground()
     fun convertImageToPngAfterCheckingPermission()
 }

@@ -6,4 +6,6 @@
     <string name="need_permissions_to_write_storage">You must grant write storage permission</string>
     <string name="settings">Settings</string>
     <string name="completed_successfully">Operation completed successfully</string>
+    <string name="conversion_in_progress">Conversion in progress</string>
+    <string name="cancel">Cancel</string>
 </resources>

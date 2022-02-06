@@ -14,4 +14,8 @@ class MainPresenter : MvpPresenter<MainView>() {
 
     fun convertImageToPngAfterCheckingPermission() = viewState.convertImageToPngAfterCheckingPermission()
 
+    fun showProgressDialog() = viewState.showProgressDialog()
+
+    fun hideProgressDialog() = viewState.hideProgressDialog()
+
 }

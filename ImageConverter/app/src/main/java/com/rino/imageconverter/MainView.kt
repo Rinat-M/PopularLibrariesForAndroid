@@ -13,4 +13,6 @@ interface MainView : MvpView {
     fun convertImageToPng()
     fun convertImageToPngOnBackground()
     fun convertImageToPngAfterCheckingPermission()
+    fun showProgressDialog()
+    fun hideProgressDialog()
 }

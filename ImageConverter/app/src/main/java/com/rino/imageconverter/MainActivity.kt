@@ -13,6 +13,7 @@ import android.os.Environment.getExternalStoragePublicDirectory
 import android.provider.MediaStore
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.rino.imageconverter.databinding.ActivityMainBinding
@@ -31,7 +32,7 @@ import java.util.*
 class MainActivity : MvpAppCompatActivity(), MainView {
 
     companion object {
-        private const val TAG = "MainActivity"
+        private const val TAG = "MainImageConverter"
         private const val BITMAP_URI_KEY = "BITMAP_URI_KEY"
     }
 
@@ -61,6 +62,21 @@ class MainActivity : MvpAppCompatActivity(), MainView {
                 )
             }
         }
+
+    private val progressDialog: AlertDialog by lazy {
+        val builder = AlertDialog.Builder(this)
+            .setTitle(R.string.conversion_in_progress)
+            .setCancelable(false)
+            .setNegativeButton(R.string.cancel) { _, _ ->
+                disposable?.dispose()
+                presenter.hideProgressDialog()
+            }
+
+        val customLayout = layoutInflater.inflate(R.layout.progress_layout, null)
+        builder.setView(customLayout)
+
+        builder.create()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,6 +121,8 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     }
 
     override fun convertImageToPng() {
+        Log.d(TAG, "convertImageToPng. Thread name = ${Thread.currentThread().name}")
+
         val sdf = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
         val fileName: String = sdf.format(Date())
 
@@ -134,10 +152,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
             val outputFile = File(storageDir!!.absolutePath, "$fileName.png")
             fileOutputStream = FileOutputStream(outputFile)
 
-            Log.d(
-                TAG,
-                "Saving image file via getExternalStoragePublicDirectory. Path - $outputFile"
-            )
+            Log.d(TAG, "Saving image file via getExternalStoragePublicDirectory. Path - $outputFile")
         }
 
         val source = ImageDecoder.createSource(contentResolver, bitmapUri!!)
@@ -149,7 +164,10 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     }
 
     override fun convertImageToPngOnBackground() {
+        presenter.showProgressDialog()
+
         val imageConversionCompletable = Completable.create { emitter ->
+            Thread.sleep(3000)
             presenter.convertImageToPng()
             emitter.onComplete()
         }
@@ -157,25 +175,25 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         disposable = imageConversionCompletable
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnDispose { Log.d(TAG, "Operation convertImageToPngOnBackground was disposed!") }
             .subscribe(
                 {
                     Log.d(TAG, this.getString(R.string.completed_successfully))
                     showToast(R.string.completed_successfully)
+                    presenter.hideProgressDialog()
                 },
                 {
                     val msg = "An error occurred while converting the image"
                     Log.e(TAG, msg, it)
                     showToast("$msg: $it")
+                    presenter.hideProgressDialog()
                 }
             )
     }
 
     override fun convertImageToPngAfterCheckingPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            Log.d(
-                TAG,
-                "In SDK=${Build.VERSION.SDK_INT}  WRITE_EXTERNAL_STORAGE permission check is not required"
-            )
+            Log.d(TAG, "In SDK=${Build.VERSION.SDK_INT}  WRITE_EXTERNAL_STORAGE permission check is not required")
             presenter.convertImageToPngOnBackground()
             return
         }
@@ -198,6 +216,14 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
             else -> requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
+    }
+
+    override fun showProgressDialog() {
+        progressDialog.show()
+    }
+
+    override fun hideProgressDialog() {
+        progressDialog.dismiss()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

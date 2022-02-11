@@ -15,42 +15,27 @@ class UsersPresenter(
         private const val TAG = "UsersPresenter"
     }
 
-    class UsersListPresenter : IUserListPresenter {
-        val users = mutableListOf<GithubUser>()
-        override var itemClickListener: ((UserItemView) -> Unit)? = null
-
-        override fun getCount() = users.size
-
-        override fun bindView(view: UserItemView) {
-            val user = users[view.pos]
-            view.setLogin(user.login)
-        }
-    }
-
-    val usersListPresenter = UsersListPresenter()
 
     private lateinit var usersDisposable: Disposable
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        viewState.init()
-        loadData()
 
-        usersListPresenter.itemClickListener = { itemView ->
-            val user = usersListPresenter.users[itemView.pos]
-            router.navigateTo(screens.user(user.id))
-        }
+        loadData()
     }
 
     private fun loadData() {
         usersDisposable = usersRepository.getUsers()
             .subscribe(
                 { users ->
-                    usersListPresenter.users.addAll(users)
-                    viewState.updateList()
+                    viewState.updateList(users)
                 },
                 { throwable -> Log.e(TAG, throwable.stackTraceToString()) }
             )
+    }
+
+    fun onUserClicked(githubUser: GithubUser) {
+        router.navigateTo(screens.user(githubUser.id))
     }
 
     fun backPressed(): Boolean {
@@ -58,5 +43,4 @@ class UsersPresenter(
         router.exit()
         return true
     }
-
 }

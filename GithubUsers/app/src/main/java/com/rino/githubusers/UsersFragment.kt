@@ -3,6 +3,7 @@ package com.rino.githubusers
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,32 +19,46 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     private val presenter: UsersPresenter by moxyPresenter {
         UsersPresenter(GithubUsersRepository(), App.instance.router, AndroidScreens())
     }
-    private var adapter: UsersRVAdapter? = null
-
-    private var vb: FragmentUsersBinding? = null
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
-        FragmentUsersBinding.inflate(inflater, container, false).also {
-            vb = it
-        }.root
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        vb = null
+    private val usersAdapter by lazy {
+        UsersAdapter { githubUser -> presenter.onUserClicked(githubUser) }
     }
 
-    override fun init() {
-        vb?.rvUsers?.layoutManager = LinearLayoutManager(context)
-        vb?.rvUsers?.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
-        adapter = UsersRVAdapter(presenter.usersListPresenter)
-        vb?.rvUsers?.adapter = adapter
+    private var _binding: FragmentUsersBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentUsersBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    override fun updateList() {
-        adapter?.notifyDataSetChanged()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        with(binding.usersRecyclerView) {
+            layoutManager = LinearLayoutManager(context)
+            addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    DividerItemDecoration.VERTICAL
+                )
+            )
+            adapter = usersAdapter
+        }
+    }
+
+    override fun updateList(users: List<GithubUser>) {
+        usersAdapter.submitList(users)
     }
 
     override fun backPressed() = presenter.backPressed()
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
 

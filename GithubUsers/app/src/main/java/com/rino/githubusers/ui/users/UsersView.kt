@@ -1,5 +1,6 @@
-package com.rino.githubusers
+package com.rino.githubusers.ui.users
 
+import com.rino.githubusers.model.GithubUser
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType

@@ -1,7 +1,8 @@
-package com.rino.githubusers
+package com.rino.githubusers.ui.user
 
 import android.util.Log
 import com.github.terrakok.cicerone.Router
+import com.rino.githubusers.repository.GithubUsersRepository
 import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 

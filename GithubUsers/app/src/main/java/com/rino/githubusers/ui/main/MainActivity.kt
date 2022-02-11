@@ -1,16 +1,18 @@
-package com.rino.githubusers
+package com.rino.githubusers.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.terrakok.cicerone.androidx.AppNavigator
+import com.rino.githubusers.App
+import com.rino.githubusers.R
 import com.rino.githubusers.databinding.ActivityMainBinding
+import com.rino.githubusers.screens.AndroidScreens
+import com.rino.githubusers.ui.base.BackButtonListener
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
 
 class MainActivity : MvpAppCompatActivity(), MainView {
 
-    val navigator = AppNavigator(this, R.id.container)
+    private val navigator = AppNavigator(this, R.id.container)
 
     private val presenter by moxyPresenter { MainPresenter(App.instance.router, AndroidScreens()) }
     private var vb: ActivityMainBinding? = null
@@ -33,7 +35,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
     override fun onBackPressed() {
         supportFragmentManager.fragments.forEach {
-            if(it is BackButtonListener && it.backPressed()){
+            if (it is BackButtonListener && it.backPressed()) {
                 return
             }
         }

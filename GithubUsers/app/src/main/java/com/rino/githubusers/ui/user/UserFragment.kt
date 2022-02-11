@@ -1,10 +1,14 @@
-package com.rino.githubusers
+package com.rino.githubusers.ui.user
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.rino.githubusers.App
+import com.rino.githubusers.repository.GithubUsersRepository
 import com.rino.githubusers.databinding.FragmentUserBinding
+import com.rino.githubusers.model.GithubUser
+import com.rino.githubusers.ui.base.BackButtonListener
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 

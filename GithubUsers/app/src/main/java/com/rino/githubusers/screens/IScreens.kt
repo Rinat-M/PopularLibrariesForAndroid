@@ -1,4 +1,4 @@
-package com.rino.githubusers
+package com.rino.githubusers.screens
 
 import com.github.terrakok.cicerone.Screen
 

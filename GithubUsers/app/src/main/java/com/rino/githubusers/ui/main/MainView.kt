@@ -1,4 +1,4 @@
-package com.rino.githubusers
+package com.rino.githubusers.ui.main
 
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy

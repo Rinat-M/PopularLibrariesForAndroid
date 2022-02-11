@@ -1,4 +1,4 @@
-package com.rino.githubusers
+package com.rino.githubusers.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

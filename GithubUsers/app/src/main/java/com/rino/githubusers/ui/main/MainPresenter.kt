@@ -1,6 +1,7 @@
-package com.rino.githubusers
+package com.rino.githubusers.ui.main
 
 import com.github.terrakok.cicerone.Router
+import com.rino.githubusers.screens.IScreens
 import moxy.MvpPresenter
 
 class MainPresenter(

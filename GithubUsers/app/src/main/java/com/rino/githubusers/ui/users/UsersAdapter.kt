@@ -1,4 +1,4 @@
-package com.rino.githubusers
+package com.rino.githubusers.ui.users
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.rino.githubusers.databinding.ItemUserBinding
+import com.rino.githubusers.model.GithubUser
 
 class UsersAdapter(
     private val itemClickListener: (GithubUser) -> Unit
@@ -28,6 +29,7 @@ class UsersAdapter(
             binding.tvLogin.text = githubUser.login
         }
     }
+
 }
 
 class GithubUserItemCallback : DiffUtil.ItemCallback<GithubUser>() {

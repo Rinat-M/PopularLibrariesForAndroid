@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.rino.githubusers.App
-import com.rino.githubusers.repository.GithubUsersRepository
 import com.rino.githubusers.databinding.FragmentUserBinding
 import com.rino.githubusers.model.GithubUser
+import com.rino.githubusers.network.GithubApiHolder
+import com.rino.githubusers.repository.GithubUsersRepositoryImpl
 import com.rino.githubusers.ui.base.BackButtonListener
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -16,9 +17,9 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
     companion object {
         private const val USER_ID = "USER_ID"
 
-        fun newInstance(userId: Int) = UserFragment().apply {
+        fun newInstance(userId: Long) = UserFragment().apply {
             val bundle = Bundle().apply {
-                putInt(USER_ID, userId)
+                putLong(USER_ID, userId)
             }
 
             this.arguments = bundle
@@ -26,8 +27,12 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
     }
 
     private val presenter: UserPresenter by moxyPresenter {
-        val userId = arguments?.get(USER_ID) as Int
-        UserPresenter(userId, GithubUsersRepository(), App.instance.router)
+        val userId = arguments?.get(USER_ID) as Long
+        UserPresenter(
+            userId,
+            GithubUsersRepositoryImpl(GithubApiHolder.githubApiService),
+            App.instance.router
+        )
     }
     private var _viewBinding: FragmentUserBinding? = null
     private val viewBinding get() = _viewBinding!!

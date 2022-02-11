@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.rino.githubusers.*
 import com.rino.githubusers.databinding.FragmentUsersBinding
 import com.rino.githubusers.model.GithubUser
-import com.rino.githubusers.repository.GithubUsersRepository
+import com.rino.githubusers.network.GithubApiHolder
+import com.rino.githubusers.repository.GithubUsersRepositoryImpl
 import com.rino.githubusers.screens.AndroidScreens
 import com.rino.githubusers.ui.base.BackButtonListener
 import moxy.MvpAppCompatFragment
@@ -21,7 +22,11 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     }
 
     private val presenter: UsersPresenter by moxyPresenter {
-        UsersPresenter(GithubUsersRepository(), App.instance.router, AndroidScreens())
+        UsersPresenter(
+            GithubUsersRepositoryImpl(GithubApiHolder.githubApiService),
+            App.instance.router,
+            AndroidScreens()
+        )
     }
     private val usersAdapter by lazy {
         UsersAdapter { githubUser -> presenter.onUserClicked(githubUser) }

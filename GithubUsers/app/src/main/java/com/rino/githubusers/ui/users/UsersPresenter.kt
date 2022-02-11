@@ -2,14 +2,14 @@ package com.rino.githubusers.ui.users
 
 import android.util.Log
 import com.github.terrakok.cicerone.Router
-import com.rino.githubusers.repository.GithubUsersRepository
+import com.rino.githubusers.repository.GithubUsersRepositoryImpl
 import com.rino.githubusers.screens.IScreens
 import com.rino.githubusers.model.GithubUser
 import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 
 class UsersPresenter(
-    private val usersRepository: GithubUsersRepository,
+    private val usersRepositoryImpl: GithubUsersRepositoryImpl,
     private val router: Router,
     private val screens: IScreens
 ) : MvpPresenter<UsersView>() {
@@ -28,7 +28,7 @@ class UsersPresenter(
     }
 
     private fun loadData() {
-        usersDisposable = usersRepository.getUsers()
+        usersDisposable = usersRepositoryImpl.getUsers()
             .subscribe(
                 { users ->
                     viewState.updateList(users)

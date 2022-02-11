@@ -13,6 +13,7 @@ import com.rino.githubusers.network.GithubApiHolder
 import com.rino.githubusers.repository.GithubUsersRepositoryImpl
 import com.rino.githubusers.screens.AndroidScreens
 import com.rino.githubusers.ui.base.BackButtonListener
+import com.rino.githubusers.ui.base.GlideImageLoader
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -29,7 +30,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         )
     }
     private val usersAdapter by lazy {
-        UsersAdapter { githubUser -> presenter.onUserClicked(githubUser) }
+        UsersAdapter(GlideImageLoader()) { githubUser -> presenter.onUserClicked(githubUser) }
     }
 
     private var _binding: FragmentUsersBinding? = null

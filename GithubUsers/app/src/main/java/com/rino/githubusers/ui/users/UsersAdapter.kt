@@ -2,13 +2,16 @@ package com.rino.githubusers.ui.users
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.rino.githubusers.databinding.ItemUserBinding
 import com.rino.githubusers.model.GithubUser
+import com.rino.githubusers.ui.base.ImageLoader
 
 class UsersAdapter(
+    private val imageLoader: ImageLoader<ImageView>,
     private val itemClickListener: (GithubUser) -> Unit
 ) : ListAdapter<GithubUser, UsersAdapter.UserViewHolder>(GithubUserItemCallback()) {
 
@@ -27,6 +30,8 @@ class UsersAdapter(
         fun bind(githubUser: GithubUser) {
             binding.root.setOnClickListener { itemClickListener(githubUser) }
             binding.tvLogin.text = githubUser.login
+
+            githubUser.avatarUrl?.let { imageLoader.loadInto(it, binding.avatarImage) }
         }
     }
 

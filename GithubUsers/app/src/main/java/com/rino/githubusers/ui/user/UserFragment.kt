@@ -14,6 +14,7 @@ import com.rino.githubusers.model.GithubRepos
 import com.rino.githubusers.model.GithubUserDetailed
 import com.rino.githubusers.network.GithubApiHolder
 import com.rino.githubusers.repository.GithubUsersRepositoryImpl
+import com.rino.githubusers.screens.AndroidScreens
 import com.rino.githubusers.ui.base.BackButtonListener
 import com.rino.githubusers.ui.base.GlideImageLoader
 import moxy.MvpAppCompatFragment
@@ -39,7 +40,8 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
         UserPresenter(
             login,
             GithubUsersRepositoryImpl(GithubApiHolder.githubApiService),
-            App.instance.router
+            App.instance.router,
+            AndroidScreens()
         )
     }
     private var _binding: FragmentUserBinding? = null
@@ -86,11 +88,6 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun updateUserInfo(user: GithubUserDetailed) {
         with(binding) {
             user.avatarUrl?.let { imageLoader.loadInto(it, avatarImage) }
@@ -114,6 +111,11 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
 
     override fun updateUserRepos(githubRepos: List<GithubRepos>) {
         reposAdapter.submitList(githubRepos)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun backPressed() = presenter.backPressed()

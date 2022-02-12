@@ -8,7 +8,7 @@ data class GithubRepos(
     val fullName: String,
     val private: Boolean,
     val fork: Boolean,
-    val url: String? = null,
+    val url: String,
     val forksUrl: String? = null,
     val createdAt: Date,
     val updatedAt: Date,

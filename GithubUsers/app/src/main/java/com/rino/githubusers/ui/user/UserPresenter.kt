@@ -3,14 +3,16 @@ package com.rino.githubusers.ui.user
 import android.util.Log
 import com.github.terrakok.cicerone.Router
 import com.rino.githubusers.model.GithubRepos
-import com.rino.githubusers.repository.GithubUsersRepositoryImpl
+import com.rino.githubusers.repository.GithubUsersRepository
+import com.rino.githubusers.screens.IScreens
 import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 
 class UserPresenter(
     private val login: String,
-    private val usersRepositoryImpl: GithubUsersRepositoryImpl,
-    private val router: Router
+    private val usersRepository: GithubUsersRepository,
+    private val router: Router,
+    private val screen: IScreens
 ) : MvpPresenter<UserView>() {
 
     companion object {
@@ -27,7 +29,7 @@ class UserPresenter(
     }
 
     private fun loadUserInfo() {
-        userDisposable = usersRepositoryImpl.getUserByLogin(login)
+        userDisposable = usersRepository.getUserByLogin(login)
             .subscribe(
                 { user -> viewState.updateUserInfo(user) },
                 { throwable -> Log.e(TAG, throwable.stackTraceToString()) }
@@ -36,7 +38,7 @@ class UserPresenter(
     }
 
     private fun loadUserRepos() {
-        reposDisposable = usersRepositoryImpl.getUserReposByLogin(login)
+        reposDisposable = usersRepository.getUserReposByLogin(login)
             .subscribe(
                 { repos -> viewState.updateUserRepos(repos) },
                 { throwable -> Log.e(TAG, throwable.stackTraceToString()) }
@@ -51,7 +53,7 @@ class UserPresenter(
     }
 
     fun onRepositoryClicked(githubRepos: GithubRepos) {
-        //TODO
+        router.navigateTo(screen.userRepository(githubRepos.url))
     }
 
 }

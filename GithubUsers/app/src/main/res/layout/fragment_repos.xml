@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/size_8">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size_8"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:text="name: 30daysoflaptops" />
+
+    <TextView
+        android:id="@+id/full_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size_8"
+        android:textSize="16sp"
+        tools:text="Full name: mojombo/30daysoflaptops.github.io" />
+
+    <TextView
+        android:id="@+id/created_at"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size_8"
+        android:textSize="16sp"
+        tools:text="Created at: 02.02.2001" />
+
+    <TextView
+        android:id="@+id/repo_private"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size_8"
+        android:textSize="16sp"
+        tools:text="Private: false" />
+
+    <TextView
+        android:id="@+id/fork"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size_8"
+        android:textSize="16sp"
+        tools:text="Fork: false" />
+
+    <TextView
+        android:id="@+id/watchers_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size_8"
+        android:textSize="16sp"
+        tools:text="Watchers: 1" />
+
+    <TextView
+        android:id="@+id/forks_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/size_8"
+        android:textSize="16sp"
+        tools:text="Forks: 1" />
+
+</LinearLayout>

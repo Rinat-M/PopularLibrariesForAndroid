@@ -30,5 +30,11 @@ class GithubUsersRepositoryImpl(
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+    override fun getUserRepoByUrl(url: String): Single<GithubRepos> {
+        return githubApiService.getRepoByUrl(url)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
 }
 

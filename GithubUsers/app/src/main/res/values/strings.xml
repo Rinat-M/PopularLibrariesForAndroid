@@ -6,4 +6,10 @@
     <string name="specific_followers">Followers: %1$d</string>
     <string name="specific_following">Following: %1$d</string>
     <string name="list_of_repositories">List of repositories:</string>
+    <string name="specific_name">Name: %1$s</string>
+    <string name="specific_full_name">Full name: %1$s</string>
+    <string name="specific_private">Private: %1$s</string>
+    <string name="specific_fork">Fork: %1$s</string>
+    <string name="specific_watchers">Watchers: %1$d</string>
+    <string name="specific_forks">Forks: %1$d</string>
 </resources>

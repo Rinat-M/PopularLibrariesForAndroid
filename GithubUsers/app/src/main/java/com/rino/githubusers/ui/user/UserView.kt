@@ -1,11 +1,13 @@
 package com.rino.githubusers.ui.user
 
-import com.rino.githubusers.model.GithubUser
+import com.rino.githubusers.model.GithubRepos
+import com.rino.githubusers.model.GithubUserDetailed
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface UserView: MvpView {
-    fun updateView(user: GithubUser)
+    fun updateUserInfo(user: GithubUserDetailed)
+    fun updateUserRepos(githubRepos: List<GithubRepos>)
 }

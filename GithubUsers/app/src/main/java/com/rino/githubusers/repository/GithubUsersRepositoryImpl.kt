@@ -1,6 +1,8 @@
 package com.rino.githubusers.repository
 
+import com.rino.githubusers.model.GithubRepos
 import com.rino.githubusers.model.GithubUser
+import com.rino.githubusers.model.GithubUserDetailed
 import com.rino.githubusers.network.GithubApiService
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
@@ -16,8 +18,14 @@ class GithubUsersRepositoryImpl(
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun getUserByLogin(login: String): Single<GithubUser> {
+    override fun getUserByLogin(login: String): Single<GithubUserDetailed> {
         return githubApiService.getUserByLogin(login)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun getUserReposByLogin(login: String): Single<List<GithubRepos>> {
+        return githubApiService.getUserReposByLogin(login)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

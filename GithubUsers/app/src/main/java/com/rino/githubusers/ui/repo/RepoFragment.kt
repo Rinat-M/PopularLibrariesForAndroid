@@ -9,7 +9,7 @@ import com.rino.githubusers.R
 import com.rino.githubusers.databinding.FragmentReposBinding
 import com.rino.githubusers.model.GithubRepos
 import com.rino.githubusers.network.GithubApiHolder
-import com.rino.githubusers.repository.GithubUsersRepositoryImpl
+import com.rino.githubusers.repository.GithubReposRepositoryImpl
 import com.rino.githubusers.ui.base.BackButtonListener
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -35,7 +35,7 @@ class RepoFragment : MvpAppCompatFragment(), RepoView, BackButtonListener {
         RepoPresenter(
             repoUrl,
             App.instance.router,
-            GithubUsersRepositoryImpl(GithubApiHolder.githubApiService)
+            GithubReposRepositoryImpl(GithubApiHolder.githubApiService)
         )
     }
 

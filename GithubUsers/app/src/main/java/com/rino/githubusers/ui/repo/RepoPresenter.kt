@@ -2,14 +2,14 @@ package com.rino.githubusers.ui.repo
 
 import android.util.Log
 import com.github.terrakok.cicerone.Router
-import com.rino.githubusers.repository.GithubUsersRepository
+import com.rino.githubusers.repository.GithubReposRepository
 import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 
 class RepoPresenter(
     private val repoUrl: String,
     private val router: Router,
-    private val usersRepository: GithubUsersRepository
+    private val reposRepository: GithubReposRepository
 ) : MvpPresenter<RepoView>() {
 
     companion object {
@@ -24,7 +24,7 @@ class RepoPresenter(
     }
 
     private fun loadData() {
-        repoDisposable = usersRepository
+        repoDisposable = reposRepository
             .getUserRepoByUrl(repoUrl)
             .subscribe(
                 { githubRepos -> viewState.updateRepoInfo(githubRepos) },

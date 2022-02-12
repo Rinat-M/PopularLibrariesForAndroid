@@ -13,6 +13,7 @@ import com.rino.githubusers.databinding.FragmentUserBinding
 import com.rino.githubusers.model.GithubRepos
 import com.rino.githubusers.model.GithubUserDetailed
 import com.rino.githubusers.network.GithubApiHolder
+import com.rino.githubusers.repository.GithubReposRepositoryImpl
 import com.rino.githubusers.repository.GithubUsersRepositoryImpl
 import com.rino.githubusers.screens.AndroidScreens
 import com.rino.githubusers.ui.base.BackButtonListener
@@ -41,7 +42,8 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
             login,
             GithubUsersRepositoryImpl(GithubApiHolder.githubApiService),
             App.instance.router,
-            AndroidScreens()
+            AndroidScreens(),
+            GithubReposRepositoryImpl(GithubApiHolder.githubApiService)
         )
     }
     private var _binding: FragmentUserBinding? = null

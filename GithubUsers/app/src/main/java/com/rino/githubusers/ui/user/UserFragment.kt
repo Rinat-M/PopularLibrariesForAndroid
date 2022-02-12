@@ -15,11 +15,11 @@ import moxy.ktx.moxyPresenter
 
 class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
     companion object {
-        private const val USER_ID = "USER_ID"
+        private const val USER_LOGIN = "USER_ID"
 
-        fun newInstance(userId: Long) = UserFragment().apply {
+        fun newInstance(login: String) = UserFragment().apply {
             val bundle = Bundle().apply {
-                putLong(USER_ID, userId)
+                putString(USER_LOGIN, login)
             }
 
             this.arguments = bundle
@@ -27,9 +27,9 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
     }
 
     private val presenter: UserPresenter by moxyPresenter {
-        val userId = arguments?.get(USER_ID) as Long
+        val login = requireArguments().get(USER_LOGIN) as String
         UserPresenter(
-            userId,
+            login,
             GithubUsersRepositoryImpl(GithubApiHolder.githubApiService),
             App.instance.router
         )
@@ -51,8 +51,8 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
         _viewBinding = null
     }
 
-    override fun updateView(user: GithubUser?) {
-        viewBinding.login.text = user?.login
+    override fun updateView(user: GithubUser) {
+        viewBinding.login.text = user.login
     }
 
     override fun backPressed() = presenter.backPressed()

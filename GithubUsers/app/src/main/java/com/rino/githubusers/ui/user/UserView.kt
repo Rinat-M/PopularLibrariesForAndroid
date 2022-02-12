@@ -7,5 +7,5 @@ import moxy.viewstate.strategy.StateStrategyType
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface UserView: MvpView {
-    fun updateView(user: GithubUser?)
+    fun updateView(user: GithubUser)
 }

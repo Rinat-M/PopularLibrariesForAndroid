@@ -38,7 +38,7 @@ class UsersPresenter(
     }
 
     fun onUserClicked(githubUser: GithubUser) {
-        router.navigateTo(screens.user(githubUser.id))
+        router.navigateTo(screens.user(githubUser.login))
     }
 
     fun backPressed(): Boolean {

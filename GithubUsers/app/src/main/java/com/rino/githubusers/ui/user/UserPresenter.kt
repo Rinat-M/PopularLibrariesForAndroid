@@ -7,7 +7,7 @@ import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 
 class UserPresenter(
-    private val userId: Long,
+    private val login: String,
     private val usersRepositoryImpl: GithubUsersRepositoryImpl,
     private val router: Router
 ) : MvpPresenter<UserView>() {
@@ -24,7 +24,7 @@ class UserPresenter(
     }
 
     private fun loadData() {
-        userDisposable = usersRepositoryImpl.getUserById(userId)
+        userDisposable = usersRepositoryImpl.getUserByLogin(login)
             .subscribe(
                 { user -> viewState.updateView(user) },
                 { throwable -> Log.e(TAG, throwable.stackTraceToString()) }

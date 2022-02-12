@@ -7,5 +7,5 @@ import com.rino.githubusers.ui.users.UsersFragment
 
 class AndroidScreens : IScreens {
     override fun users() = FragmentScreen { UsersFragment.newInstance() }
-    override fun user(userId: Long): Screen = FragmentScreen { UserFragment.newInstance(userId) }
+    override fun user(login: String): Screen = FragmentScreen { UserFragment.newInstance(login) }
 }

@@ -16,10 +16,11 @@ class GithubUsersRepositoryImpl(
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun getUserById(id: Long): Single<GithubUser> {
-        return Single.create {
-            //TODO
-        }
+    override fun getUserByLogin(login: String): Single<GithubUser> {
+        return githubApiService.getUserByLogin(login)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
+
 }
 

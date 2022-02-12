@@ -10,11 +10,11 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.rino.githubusers.App
 import com.rino.githubusers.R
 import com.rino.githubusers.databinding.FragmentUserBinding
-import com.rino.githubusers.model.GithubRepos
-import com.rino.githubusers.model.GithubUserDetailed
+import com.rino.githubusers.core.model.GithubRepos
+import com.rino.githubusers.core.model.GithubUserDetailed
 import com.rino.githubusers.network.GithubApiHolder
-import com.rino.githubusers.repository.GithubReposRepositoryImpl
-import com.rino.githubusers.repository.GithubUsersRepositoryImpl
+import com.rino.githubusers.core.repository.GithubReposRepositoryImpl
+import com.rino.githubusers.core.repository.GithubUsersRepositoryImpl
 import com.rino.githubusers.screens.AndroidScreens
 import com.rino.githubusers.ui.base.BackButtonListener
 import com.rino.githubusers.ui.base.GlideImageLoader

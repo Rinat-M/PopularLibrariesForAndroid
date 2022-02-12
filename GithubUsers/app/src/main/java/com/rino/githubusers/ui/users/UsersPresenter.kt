@@ -2,9 +2,9 @@ package com.rino.githubusers.ui.users
 
 import android.util.Log
 import com.github.terrakok.cicerone.Router
-import com.rino.githubusers.repository.GithubUsersRepositoryImpl
+import com.rino.githubusers.core.repository.GithubUsersRepositoryImpl
 import com.rino.githubusers.screens.IScreens
-import com.rino.githubusers.model.GithubUser
+import com.rino.githubusers.core.model.GithubUser
 import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 

@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import com.rino.githubusers.App
 import com.rino.githubusers.R
 import com.rino.githubusers.databinding.FragmentReposBinding
-import com.rino.githubusers.model.GithubRepos
+import com.rino.githubusers.core.model.GithubRepos
 import com.rino.githubusers.network.GithubApiHolder
-import com.rino.githubusers.repository.GithubReposRepositoryImpl
+import com.rino.githubusers.core.repository.GithubReposRepositoryImpl
 import com.rino.githubusers.ui.base.BackButtonListener
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter

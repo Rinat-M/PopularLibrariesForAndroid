@@ -1,8 +1,8 @@
 package com.rino.githubusers.network
 
-import com.rino.githubusers.model.GithubRepos
-import com.rino.githubusers.model.GithubUser
-import com.rino.githubusers.model.GithubUserDetailed
+import com.rino.githubusers.core.model.GithubRepos
+import com.rino.githubusers.core.model.GithubUser
+import com.rino.githubusers.core.model.GithubUserDetailed
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Path

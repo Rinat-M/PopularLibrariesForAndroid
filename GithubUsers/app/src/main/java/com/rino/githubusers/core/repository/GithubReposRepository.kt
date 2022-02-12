@@ -1,6 +1,6 @@
-package com.rino.githubusers.repository
+package com.rino.githubusers.core.repository
 
-import com.rino.githubusers.model.GithubRepos
+import com.rino.githubusers.core.model.GithubRepos
 import io.reactivex.rxjava3.core.Single
 
 interface GithubReposRepository {

@@ -1,4 +1,4 @@
-package com.rino.githubusers.model
+package com.rino.githubusers.core.model
 
 import java.util.*
 

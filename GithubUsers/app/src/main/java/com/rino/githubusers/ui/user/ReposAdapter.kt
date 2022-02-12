@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rino.githubusers.databinding.ItemReposBinding
-import com.rino.githubusers.model.GithubRepos
+import com.rino.githubusers.core.model.GithubRepos
 import androidx.recyclerview.widget.ListAdapter
 
 class GithubReposAdapter(

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.rino.githubusers.databinding.ItemUserBinding
-import com.rino.githubusers.model.GithubUser
+import com.rino.githubusers.core.model.GithubUser
 import com.rino.githubusers.ui.base.ImageLoader
 
 class UsersAdapter(

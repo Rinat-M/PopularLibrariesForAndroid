@@ -1,7 +1,7 @@
 package com.rino.githubusers.ui.user
 
-import com.rino.githubusers.model.GithubRepos
-import com.rino.githubusers.model.GithubUserDetailed
+import com.rino.githubusers.core.model.GithubRepos
+import com.rino.githubusers.core.model.GithubUserDetailed
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType

@@ -1,6 +1,6 @@
 package com.rino.githubusers.ui.repo
 
-import com.rino.githubusers.model.GithubRepos
+import com.rino.githubusers.core.model.GithubRepos
 import moxy.MvpView
 import moxy.viewstate.strategy.alias.AddToEndSingle
 

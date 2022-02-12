@@ -1,8 +1,7 @@
-package com.rino.githubusers.repository
+package com.rino.githubusers.core.repository
 
-import com.rino.githubusers.model.GithubRepos
-import com.rino.githubusers.model.GithubUser
-import com.rino.githubusers.model.GithubUserDetailed
+import com.rino.githubusers.core.model.GithubUser
+import com.rino.githubusers.core.model.GithubUserDetailed
 import io.reactivex.rxjava3.core.Single
 
 interface GithubUsersRepository {

@@ -3,6 +3,7 @@ package com.rino.githubusers
 import android.app.Application
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
+import com.rino.githubusers.database.GithubDatabase
 
 class App : Application() {
     companion object {
@@ -15,6 +16,10 @@ class App : Application() {
     }
     val navigatorHolder get() = cicerone.getNavigatorHolder()
     val router get() = cicerone.router
+
+    val database by lazy {
+        GithubDatabase.getInstance(this)
+    }
 
     override fun onCreate() {
         super.onCreate()

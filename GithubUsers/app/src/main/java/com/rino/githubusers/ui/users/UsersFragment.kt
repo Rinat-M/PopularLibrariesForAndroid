@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rino.githubusers.*
 import com.rino.githubusers.databinding.FragmentUsersBinding
-import com.rino.githubusers.model.GithubUser
+import com.rino.githubusers.core.model.GithubUser
 import com.rino.githubusers.network.GithubApiHolder
-import com.rino.githubusers.repository.GithubUsersRepositoryImpl
+import com.rino.githubusers.core.repository.GithubUsersRepositoryImpl
 import com.rino.githubusers.screens.AndroidScreens
 import com.rino.githubusers.ui.base.BackButtonListener
 import com.rino.githubusers.ui.base.GlideImageLoader

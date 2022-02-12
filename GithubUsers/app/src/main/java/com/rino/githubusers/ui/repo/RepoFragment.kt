@@ -78,7 +78,7 @@ class RepoFragment : MvpAppCompatFragment(), RepoView, BackButtonListener {
             )
 
             forksCount.text = String.format(
-                resources.getString(R.string.specific_watchers),
+                resources.getString(R.string.specific_forks),
                 githubRepos.forksCount
             )
         }

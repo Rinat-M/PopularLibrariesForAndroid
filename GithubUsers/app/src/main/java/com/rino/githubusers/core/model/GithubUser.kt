@@ -1,6 +1,6 @@
 package com.rino.githubusers.core.model
 
-import com.rino.githubusers.database.entity.GithubUserEntity
+import com.rino.githubusers.database.entity.GithubUserMainInfoEntity
 
 data class GithubUser(
     val id: Long,
@@ -8,6 +8,6 @@ data class GithubUser(
     val reposUrl: String,
     val avatarUrl: String? = null
 ) {
-    val dbModel get() = GithubUserEntity(id, login, reposUrl, avatarUrl)
+    val dbModel get() = GithubUserMainInfoEntity(id, login, reposUrl, avatarUrl)
 }
 

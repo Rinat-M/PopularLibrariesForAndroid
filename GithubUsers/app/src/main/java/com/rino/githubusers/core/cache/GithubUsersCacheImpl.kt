@@ -21,7 +21,7 @@ class GithubUsersCacheImpl(
                     githubApiService.getUsers()
                         .flatMap { users ->
                             val usersDb = users.map { it.dbModel }
-                            userDao.insertAll(usersDb)
+                            userDao.insertOrUpdateUsersMainInfoAll(usersDb)
                             Single.just(users)
                         }
                 } else {

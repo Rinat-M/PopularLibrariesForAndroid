@@ -12,9 +12,9 @@ data class GithubUserEntity(
     val login: String,
     val reposUrl: String,
     val avatarUrl: String? = null,
-    val publicRepos: Long = 0,
-    val followers: Long = 0,
-    val following: Long = 0,
+    val publicRepos: Long? = null,
+    val followers: Long? = null,
+    val following: Long? = null,
     val name: String? = null,
     val location: String? = null,
     val createdAt: Date? = null
@@ -26,9 +26,16 @@ data class GithubUserEntity(
             id = id,
             login = login,
             reposUrl = reposUrl,
-            publicRepos = publicRepos,
-            followers = followers,
-            following = following,
+            publicRepos = publicRepos ?: 0,
+            followers = followers ?: 0,
+            following = following ?: 0,
             createdAt = createdAt
         )
 }
+
+data class GithubUserMainInfoEntity(
+    val id: Long,
+    val login: String,
+    val reposUrl: String,
+    val avatarUrl: String? = null
+)

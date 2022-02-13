@@ -8,4 +8,5 @@ import moxy.viewstate.strategy.StateStrategyType
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface UsersView : MvpView {
     fun updateList(users: List<GithubUser>)
+    fun showMessage(message: String)
 }

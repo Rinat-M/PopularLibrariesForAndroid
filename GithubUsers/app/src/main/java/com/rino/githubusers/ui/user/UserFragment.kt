@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.rino.githubusers.App
 import com.rino.githubusers.R
+import com.rino.githubusers.core.cache.GithubUsersCacheImpl
 import com.rino.githubusers.databinding.FragmentUserBinding
 import com.rino.githubusers.core.model.GithubRepos
 import com.rino.githubusers.core.model.GithubUserDetailed
 import com.rino.githubusers.network.GithubApiHolder
 import com.rino.githubusers.core.repository.GithubReposRepositoryImpl
 import com.rino.githubusers.core.repository.GithubUsersRepositoryImpl
+import com.rino.githubusers.network.NetworkStatus
 import com.rino.githubusers.screens.AndroidScreens
 import com.rino.githubusers.ui.base.BackButtonListener
 import com.rino.githubusers.ui.base.GlideImageLoader
@@ -40,7 +42,13 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
         val login = requireArguments().get(USER_LOGIN) as String
         UserPresenter(
             login,
-            GithubUsersRepositoryImpl(GithubApiHolder.githubApiService),
+            GithubUsersRepositoryImpl(
+                GithubUsersCacheImpl(
+                    NetworkStatus(requireContext()),
+                    GithubApiHolder.githubApiService,
+                    App.instance.database.userDao
+                )
+            ),
             App.instance.router,
             AndroidScreens(),
             GithubReposRepositoryImpl(GithubApiHolder.githubApiService)
@@ -97,11 +105,13 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
             location.text = user.location ?: ""
             login.text = String.format(resources.getString(R.string.specific_login), user.login)
 
-            createdAt.text =
-                String.format(
+            user.createdAt?.let {
+                createdAt.text = String.format(
                     resources.getString(R.string.specific_created_at),
-                    simpleDateFormat.format(user.createdAt)
+                    simpleDateFormat.format(it)
                 )
+            }
+
             publicRepos.text =
                 String.format(resources.getString(R.string.specific_public_repos), user.publicRepos)
             followers.text =

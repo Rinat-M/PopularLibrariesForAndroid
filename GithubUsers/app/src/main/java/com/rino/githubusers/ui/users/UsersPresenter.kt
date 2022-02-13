@@ -33,7 +33,10 @@ class UsersPresenter(
                 { users ->
                     viewState.updateList(users)
                 },
-                { throwable -> Log.e(TAG, throwable.stackTraceToString()) }
+                { throwable ->
+                    Log.e(TAG, throwable.stackTraceToString())
+                    viewState.showMessage(throwable.message ?: "Can't load data")
+                }
             )
     }
 

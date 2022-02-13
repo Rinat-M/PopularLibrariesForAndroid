@@ -15,7 +15,7 @@ import com.rino.githubusers.network.GithubApiHolder
 import com.rino.githubusers.network.NetworkStatus
 import com.rino.githubusers.screens.AndroidScreens
 import com.rino.githubusers.ui.base.BackButtonListener
-import com.rino.githubusers.ui.base.GlideImageLoader
+import com.rino.githubusers.ui.base.GlideImageCacheLoader
 import com.rino.githubusers.ui.showToast
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -39,7 +39,10 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         )
     }
     private val usersAdapter by lazy {
-        UsersAdapter(GlideImageLoader()) { githubUser -> presenter.onUserClicked(githubUser) }
+        UsersAdapter(
+            GlideImageCacheLoader(App.instance.database.imagesDao),
+            presenter::onUserClicked
+        )
     }
 
     private var _binding: FragmentUsersBinding? = null

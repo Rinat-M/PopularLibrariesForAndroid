@@ -7,4 +7,6 @@ import androidx.room.PrimaryKey
 class CachedImage(
     @PrimaryKey val url: String,
     val localPath: String
-)
+) {
+    val isEmpty get() = url.isBlank() && localPath.isBlank()
+}

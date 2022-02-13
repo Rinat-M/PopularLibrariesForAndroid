@@ -11,16 +11,16 @@ import com.rino.githubusers.App
 import com.rino.githubusers.R
 import com.rino.githubusers.core.cache.GithubReposCacheImpl
 import com.rino.githubusers.core.cache.GithubUsersCacheImpl
-import com.rino.githubusers.databinding.FragmentUserBinding
 import com.rino.githubusers.core.model.GithubRepos
 import com.rino.githubusers.core.model.GithubUserDetailed
-import com.rino.githubusers.network.GithubApiHolder
 import com.rino.githubusers.core.repository.GithubReposRepositoryImpl
 import com.rino.githubusers.core.repository.GithubUsersRepositoryImpl
+import com.rino.githubusers.databinding.FragmentUserBinding
+import com.rino.githubusers.network.GithubApiHolder
 import com.rino.githubusers.network.NetworkStatus
 import com.rino.githubusers.screens.AndroidScreens
 import com.rino.githubusers.ui.base.BackButtonListener
-import com.rino.githubusers.ui.base.GlideImageLoader
+import com.rino.githubusers.ui.base.GlideImageCacheLoader
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import java.text.SimpleDateFormat
@@ -64,7 +64,7 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
 
-    private val imageLoader by lazy { GlideImageLoader() }
+    private val imageLoader by lazy { GlideImageCacheLoader(App.instance.database.imagesDao) }
 
     private val circularProgressDrawable by lazy {
         CircularProgressDrawable(requireContext()).apply {

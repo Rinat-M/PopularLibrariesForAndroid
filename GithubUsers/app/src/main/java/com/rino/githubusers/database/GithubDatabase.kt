@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.rino.githubusers.database.converter.DateConverter
+import com.rino.githubusers.database.dao.ImagesDao
 import com.rino.githubusers.database.dao.ReposDao
 import com.rino.githubusers.database.dao.UserDao
 import com.rino.githubusers.database.entity.CachedImage
@@ -21,6 +22,7 @@ abstract class GithubDatabase : RoomDatabase() {
 
     abstract val userDao: UserDao
     abstract val reposDao: ReposDao
+    abstract val imagesDao: ImagesDao
 
     companion object {
         private const val DB_NAME = "github.db"

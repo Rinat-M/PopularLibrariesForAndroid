@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.rino.githubusers.App
 import com.rino.githubusers.R
+import com.rino.githubusers.core.cache.GithubReposCacheImpl
 import com.rino.githubusers.core.cache.GithubUsersCacheImpl
 import com.rino.githubusers.databinding.FragmentUserBinding
 import com.rino.githubusers.core.model.GithubRepos
@@ -51,7 +52,13 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
             ),
             App.instance.router,
             AndroidScreens(),
-            GithubReposRepositoryImpl(GithubApiHolder.githubApiService)
+            GithubReposRepositoryImpl(
+                GithubReposCacheImpl(
+                    NetworkStatus(requireContext()),
+                    GithubApiHolder.githubApiService,
+                    App.instance.database.reposDao
+                )
+            )
         )
     }
     private var _binding: FragmentUserBinding? = null

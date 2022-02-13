@@ -3,6 +3,8 @@ package com.rino.githubusers.database.entity
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.rino.githubusers.core.model.GithubRepos
+import com.rino.githubusers.core.model.GithubUser
 import java.util.*
 
 @Entity(
@@ -24,5 +26,20 @@ data class GithubRepoEntity(
     val isPrivate: Boolean,
     val isFork: Boolean,
     val watchersCount: Long,
-    val forksCount: Long
-)
+    val forksCount: Long,
+    val url: String
+) {
+    val coreModel
+        get() = GithubRepos(
+            id = id,
+            name = name,
+            fullName = fullName,
+            private = isPrivate,
+            fork = isFork,
+            watchersCount = watchersCount,
+            forksCount = forksCount,
+            createdAt = createdAt,
+            owner = GithubUser(userId, "", ""),
+            url = url
+        )
+}

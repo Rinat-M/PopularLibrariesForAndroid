@@ -26,10 +26,13 @@ data class GithubUserEntity(
             id = id,
             login = login,
             reposUrl = reposUrl,
+            avatarUrl = avatarUrl,
             publicRepos = publicRepos ?: 0,
             followers = followers ?: 0,
             following = following ?: 0,
-            createdAt = createdAt
+            createdAt = createdAt,
+            name = name,
+            location = location
         )
 }
 

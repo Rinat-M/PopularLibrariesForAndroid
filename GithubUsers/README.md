@@ -39,3 +39,20 @@
 ![homework05_1](images/homework05_1.gif) 
 ![homework05_2](images/homework05_2.png) 
 ![homework05_3](images/homework05_3.png) 
+
+# Домашнее задание 6.
+1. Вытащите кеширование в отдельные классы RoomGithubUsersCache и RoomGithubRepositoriesCache. Организуйте их внедрение в репозиторий через интерфейсы.
+2. \*\* Реализуйте свой кеш картинок, используя listener() библиотеки Glide. Картинки храните на диске, а в Room — CahedImage(url, localPath). Задание предназначено, чтобы поупражняться с Room. В реальности лучше используйте встроенный кеш Glide.
+
+Что было сделано:
+1. Отделил GithubReposRepository от GithubUsersRepository.
+2. Добавил базу данных в проект. 
+3. Реализовал GithubUsersCacheImpl и GithubReposCacheImpl.
+4. Добавил новую таблицу CachedImage в базу данных с помощью миграции.
+5. Реализовал GlideImageCacheLoader, в которой:
+    1) Отключен встроенный кэш Glide с помощью diskCacheStrategy(DiskCacheStrategy.NONE).
+    2) В onResourceReady сохраняю кэш на диск и информацию об этом в CachedImage.
+    3) В onLoadFailed проверяю наличие файла в CachedImage, если запись существует, то загружаю файл с диска.
+6. Добавил HttpLoggingInterceptor для удобной отладки.
+
+![homework06_1](images/homework06_1.gif) 

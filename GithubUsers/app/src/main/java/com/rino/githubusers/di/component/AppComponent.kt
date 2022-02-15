@@ -1,17 +1,23 @@
 package com.rino.githubusers.di.component
 
-import com.rino.githubusers.di.modules.NavigationModule
+import com.rino.githubusers.di.modules.*
 import com.rino.githubusers.ui.main.MainActivity
 import com.rino.githubusers.ui.main.MainPresenter
 import com.rino.githubusers.ui.repo.RepoFragment
 import com.rino.githubusers.ui.user.UserFragment
 import com.rino.githubusers.ui.users.UsersFragment
+import com.rino.githubusers.ui.users.UsersPresenter
 import dagger.Component
 import javax.inject.Singleton
 
 @Component(
     modules = [
-        NavigationModule::class
+        NavigationModule::class,
+        NetworkModule::class,
+        RepositoryModule::class,
+        CacheModule::class,
+        DatabaseModule::class,
+        ContextModule::class
     ]
 )
 @Singleton
@@ -24,5 +30,6 @@ interface AppComponent {
     fun inject(usersFragment: UsersFragment)
 
     fun providesMainPresenter(): MainPresenter
+    fun providesUsersPresenter(): UsersPresenter
 
 }

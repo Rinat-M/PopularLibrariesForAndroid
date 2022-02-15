@@ -4,24 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.github.terrakok.cicerone.Router
 import com.rino.githubusers.App
 import com.rino.githubusers.R
-import com.rino.githubusers.core.cache.GithubReposCacheImpl
-import com.rino.githubusers.core.cache.GithubUsersCacheImpl
 import com.rino.githubusers.core.model.GithubRepos
 import com.rino.githubusers.core.model.GithubUserDetailed
-import com.rino.githubusers.core.repository.GithubReposRepositoryImpl
-import com.rino.githubusers.core.repository.GithubUsersRepositoryImpl
+import com.rino.githubusers.core.repository.GithubReposRepository
+import com.rino.githubusers.core.repository.GithubUsersRepository
 import com.rino.githubusers.databinding.FragmentUserBinding
-import com.rino.githubusers.network.GithubApiHolder
-import com.rino.githubusers.network.NetworkStatus
 import com.rino.githubusers.screens.IScreens
 import com.rino.githubusers.ui.base.BackButtonListener
-import com.rino.githubusers.ui.base.GlideImageCacheLoader
+import com.rino.githubusers.ui.base.ImageLoader
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import java.text.SimpleDateFormat
@@ -47,32 +44,27 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
     @Inject
     lateinit var appScreens: IScreens
 
+    @Inject
+    lateinit var githubUsersRepositoryImpl: GithubUsersRepository
+
+    @Inject
+    lateinit var githubReposRepositoryImpl: GithubReposRepository
+
+    @Inject
+    lateinit var imageLoader: ImageLoader<ImageView>
+
     private val presenter: UserPresenter by moxyPresenter {
         val login = requireArguments().get(USER_LOGIN) as String
         UserPresenter(
             login,
-            GithubUsersRepositoryImpl(
-                GithubUsersCacheImpl(
-                    NetworkStatus(requireContext()),
-                    GithubApiHolder.githubApiService,
-                    App.instance.database.userDao
-                )
-            ),
+            githubUsersRepositoryImpl,
             router,
             appScreens,
-            GithubReposRepositoryImpl(
-                GithubReposCacheImpl(
-                    NetworkStatus(requireContext()),
-                    GithubApiHolder.githubApiService,
-                    App.instance.database.reposDao
-                )
-            )
+            githubReposRepositoryImpl
         )
     }
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
-
-    private val imageLoader by lazy { GlideImageCacheLoader(App.instance.database.imagesDao) }
 
     private val circularProgressDrawable by lazy {
         CircularProgressDrawable(requireContext()).apply {

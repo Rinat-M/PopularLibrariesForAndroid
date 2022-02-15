@@ -2,14 +2,15 @@ package com.rino.githubusers.ui.users
 
 import android.util.Log
 import com.github.terrakok.cicerone.Router
-import com.rino.githubusers.core.repository.GithubUsersRepositoryImpl
-import com.rino.githubusers.screens.IScreens
 import com.rino.githubusers.core.model.GithubUser
+import com.rino.githubusers.core.repository.GithubUsersRepository
+import com.rino.githubusers.screens.IScreens
 import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
+import javax.inject.Inject
 
-class UsersPresenter(
-    private val usersRepositoryImpl: GithubUsersRepositoryImpl,
+class UsersPresenter @Inject constructor(
+    private val usersRepositoryImpl: GithubUsersRepository,
     private val router: Router,
     private val screens: IScreens
 ) : MvpPresenter<UsersView>() {

@@ -1,9 +1,9 @@
 package com.rino.githubusers
 
 import android.app.Application
-import com.rino.githubusers.database.GithubDatabase
 import com.rino.githubusers.di.component.AppComponent
 import com.rino.githubusers.di.component.DaggerAppComponent
+import com.rino.githubusers.di.modules.ContextModule
 
 class App : Application() {
     companion object {
@@ -12,11 +12,8 @@ class App : Application() {
 
     val appComponent: AppComponent by lazy {
         DaggerAppComponent.builder()
+            .contextModule(ContextModule(this))
             .build()
-    }
-
-    val database by lazy {
-        GithubDatabase.getInstance(this)
     }
 
     override fun onCreate() {

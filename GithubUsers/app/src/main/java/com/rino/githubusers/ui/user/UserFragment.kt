@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.github.terrakok.cicerone.Router
 import com.rino.githubusers.App
 import com.rino.githubusers.R
 import com.rino.githubusers.core.cache.GithubReposCacheImpl
@@ -18,13 +19,14 @@ import com.rino.githubusers.core.repository.GithubUsersRepositoryImpl
 import com.rino.githubusers.databinding.FragmentUserBinding
 import com.rino.githubusers.network.GithubApiHolder
 import com.rino.githubusers.network.NetworkStatus
-import com.rino.githubusers.screens.AndroidScreens
+import com.rino.githubusers.screens.IScreens
 import com.rino.githubusers.ui.base.BackButtonListener
 import com.rino.githubusers.ui.base.GlideImageCacheLoader
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
     companion object {
@@ -39,6 +41,12 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
         }
     }
 
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var appScreens: IScreens
+
     private val presenter: UserPresenter by moxyPresenter {
         val login = requireArguments().get(USER_LOGIN) as String
         UserPresenter(
@@ -50,8 +58,8 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
                     App.instance.database.userDao
                 )
             ),
-            App.instance.router,
-            AndroidScreens(),
+            router,
+            appScreens,
             GithubReposRepositoryImpl(
                 GithubReposCacheImpl(
                     NetworkStatus(requireContext()),
@@ -78,6 +86,11 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
 
     private val reposAdapter by lazy {
         GithubReposAdapter { githubRepos -> presenter.onRepositoryClicked(githubRepos) }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        App.instance.appComponent.inject(this)
     }
 
     override fun onCreateView(

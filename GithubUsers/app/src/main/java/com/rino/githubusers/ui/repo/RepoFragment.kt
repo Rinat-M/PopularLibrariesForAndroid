@@ -4,18 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.github.terrakok.cicerone.Router
 import com.rino.githubusers.App
 import com.rino.githubusers.R
 import com.rino.githubusers.core.model.GithubRepos
-import com.rino.githubusers.core.repository.GithubReposRepository
 import com.rino.githubusers.databinding.FragmentReposBinding
 import com.rino.githubusers.ui.base.BackButtonListener
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.inject.Inject
 
 class RepoFragment : MvpAppCompatFragment(), RepoView, BackButtonListener {
 
@@ -31,19 +28,9 @@ class RepoFragment : MvpAppCompatFragment(), RepoView, BackButtonListener {
         }
     }
 
-    @Inject
-    lateinit var router: Router
-
-    @Inject
-    lateinit var githubReposRepositoryImpl: GithubReposRepository
-
     private val presenter by moxyPresenter {
         val repoUrl = requireArguments().get(REPO_URL) as String
-        RepoPresenter(
-            repoUrl,
-            router,
-            githubReposRepositoryImpl
-        )
+        App.instance.appComponent.providesRepoPresenterFactory().presenter(repoUrl)
     }
 
     private var _binding: FragmentReposBinding? = null
@@ -53,7 +40,6 @@ class RepoFragment : MvpAppCompatFragment(), RepoView, BackButtonListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        App.instance.appComponent.inject(this)
     }
 
     override fun onCreateView(

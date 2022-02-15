@@ -10,15 +10,14 @@ import moxy.MvpPresenter
 import javax.inject.Inject
 
 class UsersPresenter @Inject constructor(
-    private val usersRepositoryImpl: GithubUsersRepository,
     private val router: Router,
-    private val screens: IScreens
+    private val screens: IScreens,
+    private val usersRepositoryImpl: GithubUsersRepository
 ) : MvpPresenter<UsersView>() {
 
     companion object {
         private const val TAG = "UsersPresenter"
     }
-
 
     private lateinit var usersDisposable: Disposable
 

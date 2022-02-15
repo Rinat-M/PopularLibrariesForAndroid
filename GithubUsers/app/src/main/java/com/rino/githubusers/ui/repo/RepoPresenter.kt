@@ -3,11 +3,13 @@ package com.rino.githubusers.ui.repo
 import android.util.Log
 import com.github.terrakok.cicerone.Router
 import com.rino.githubusers.core.repository.GithubReposRepository
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 
-class RepoPresenter(
-    private val repoUrl: String,
+class RepoPresenter @AssistedInject constructor(
+    @Assisted private val repoUrl: String,
     private val router: Router,
     private val reposRepository: GithubReposRepository
 ) : MvpPresenter<RepoView>() {

@@ -8,15 +8,11 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import com.github.terrakok.cicerone.Router
 import com.rino.githubusers.App
 import com.rino.githubusers.R
 import com.rino.githubusers.core.model.GithubRepos
 import com.rino.githubusers.core.model.GithubUserDetailed
-import com.rino.githubusers.core.repository.GithubReposRepository
-import com.rino.githubusers.core.repository.GithubUsersRepository
 import com.rino.githubusers.databinding.FragmentUserBinding
-import com.rino.githubusers.screens.IScreens
 import com.rino.githubusers.ui.base.BackButtonListener
 import com.rino.githubusers.ui.base.ImageLoader
 import moxy.MvpAppCompatFragment
@@ -39,30 +35,13 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
     }
 
     @Inject
-    lateinit var router: Router
-
-    @Inject
-    lateinit var appScreens: IScreens
-
-    @Inject
-    lateinit var githubUsersRepositoryImpl: GithubUsersRepository
-
-    @Inject
-    lateinit var githubReposRepositoryImpl: GithubReposRepository
-
-    @Inject
     lateinit var imageLoader: ImageLoader<ImageView>
 
-    private val presenter: UserPresenter by moxyPresenter {
+    private val presenter by moxyPresenter {
         val login = requireArguments().get(USER_LOGIN) as String
-        UserPresenter(
-            login,
-            githubUsersRepositoryImpl,
-            router,
-            appScreens,
-            githubReposRepositoryImpl
-        )
+        App.instance.appComponent.providesUserPresenterFactory().presenter(login)
     }
+
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
 

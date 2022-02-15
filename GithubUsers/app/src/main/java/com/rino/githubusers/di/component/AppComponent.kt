@@ -1,5 +1,7 @@
 package com.rino.githubusers.di.component
 
+import com.rino.githubusers.di.factory.RepoPresenterFactory
+import com.rino.githubusers.di.factory.UserPresenterFactory
 import com.rino.githubusers.di.modules.*
 import com.rino.githubusers.ui.main.MainActivity
 import com.rino.githubusers.ui.main.MainPresenter
@@ -31,5 +33,8 @@ interface AppComponent {
 
     fun providesMainPresenter(): MainPresenter
     fun providesUsersPresenter(): UsersPresenter
+
+    fun providesUserPresenterFactory(): UserPresenterFactory
+    fun providesRepoPresenterFactory(): RepoPresenterFactory
 
 }

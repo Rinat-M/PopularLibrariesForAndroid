@@ -5,7 +5,6 @@ import com.rino.githubusers.di.factory.UserPresenterFactory
 import com.rino.githubusers.di.modules.*
 import com.rino.githubusers.ui.main.MainActivity
 import com.rino.githubusers.ui.main.MainPresenter
-import com.rino.githubusers.ui.repo.RepoFragment
 import com.rino.githubusers.ui.user.UserFragment
 import com.rino.githubusers.ui.users.UsersFragment
 import com.rino.githubusers.ui.users.UsersPresenter
@@ -27,7 +26,6 @@ interface AppComponent {
 
     fun inject(mainActivity: MainActivity)
 
-    fun inject(repoFragment: RepoFragment)
     fun inject(userFragment: UserFragment)
     fun inject(usersFragment: UsersFragment)
 

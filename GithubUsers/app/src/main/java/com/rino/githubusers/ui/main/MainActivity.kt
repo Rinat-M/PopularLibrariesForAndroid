@@ -5,13 +5,12 @@ import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.rino.githubusers.App
 import com.rino.githubusers.R
-import com.rino.githubusers.databinding.ActivityMainBinding
 import com.rino.githubusers.ui.base.BackButtonListener
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 
-class MainActivity : MvpAppCompatActivity(), MainView {
+class MainActivity : MvpAppCompatActivity(R.layout.activity_main), MainView {
 
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
@@ -20,13 +19,8 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
     private val presenter by moxyPresenter { App.appDependencyGraph.appComponent.mainPresenter() }
 
-    private lateinit var binding: ActivityMainBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
         App.appDependencyGraph.appComponent.inject(this)
     }
 

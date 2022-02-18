@@ -30,6 +30,6 @@ interface AppComponent {
     fun inject(userFragment: UserFragment)
     fun inject(usersFragment: UsersFragment)
 
-    fun providesMainPresenter(): MainPresenter
+    fun mainPresenter(): MainPresenter
 
 }

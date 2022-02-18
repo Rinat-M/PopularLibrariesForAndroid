@@ -30,7 +30,7 @@ class UsersPresenter @Inject constructor(
 
     override fun onDestroy() {
         super.onDestroy()
-        App.instance.destroyUsersScope()
+        App.appDependencyGraph.destroyUsersScope()
     }
 
     private fun loadData() {

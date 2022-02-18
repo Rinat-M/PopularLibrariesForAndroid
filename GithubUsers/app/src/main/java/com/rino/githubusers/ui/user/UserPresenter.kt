@@ -35,7 +35,7 @@ class UserPresenter @AssistedInject constructor(
 
     override fun onDestroy() {
         super.onDestroy()
-        App.instance.destroyReposScope()
+        App.appDependencyGraph.destroyReposScope()
     }
 
     private fun loadUserInfo() {

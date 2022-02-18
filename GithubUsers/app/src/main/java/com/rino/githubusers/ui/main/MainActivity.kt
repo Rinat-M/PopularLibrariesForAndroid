@@ -18,7 +18,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
     private val navigator = AppNavigator(this, R.id.container)
 
-    private val presenter by moxyPresenter { App.instance.appComponent.providesMainPresenter() }
+    private val presenter by moxyPresenter { App.appDependencyGraph.appComponent.mainPresenter() }
 
     private lateinit var binding: ActivityMainBinding
 
@@ -27,7 +27,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        App.instance.appComponent.inject(this)
+        App.appDependencyGraph.appComponent.inject(this)
     }
 
     override fun onResumeFragments() {

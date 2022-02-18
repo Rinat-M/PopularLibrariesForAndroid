@@ -39,8 +39,7 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
 
     private val presenter by moxyPresenter {
         val login = requireArguments().get(USER_LOGIN) as String
-        App.instance.initReposSubcomponent()
-        App.instance.reposSubcomponent?.userPresenterFactory()?.presenter(login)!!
+        App.appDependencyGraph.reposSubcomponent.userPresenterFactory().presenter(login)
     }
 
     private var _binding: FragmentUserBinding? = null
@@ -62,7 +61,7 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        App.instance.appComponent.inject(this)
+        App.appDependencyGraph.appComponent.inject(this)
     }
 
     override fun onCreateView(

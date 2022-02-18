@@ -12,8 +12,8 @@ android {
         applicationId "com.rino.githubusers"
         minSdk 28
         targetSdk 31
-        versionCode 24
-        versionName "1.5.1"
+        versionCode 25
+        versionName "1.5.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

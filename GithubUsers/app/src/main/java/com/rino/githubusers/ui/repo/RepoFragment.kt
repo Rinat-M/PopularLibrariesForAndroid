@@ -30,7 +30,7 @@ class RepoFragment : MvpAppCompatFragment(), RepoView, BackButtonListener {
 
     private val presenter by moxyPresenter {
         val repoUrl = requireArguments().get(REPO_URL) as String
-        App.instance.reposSubcomponent?.repoPresenterFactory()?.presenter(repoUrl)!!
+        App.appDependencyGraph.reposSubcomponent.repoPresenterFactory().presenter(repoUrl)
     }
 
     private var _binding: FragmentReposBinding? = null

@@ -26,8 +26,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     lateinit var imageLoader: ImageLoader<ImageView>
 
     private val presenter: UsersPresenter by moxyPresenter {
-        App.instance.initUsersSubcomponent()
-        App.instance.usersSubcomponent?.usersPresenter()!!
+        App.appDependencyGraph.usersSubcomponent.usersPresenter()
     }
 
     private val usersAdapter by lazy {
@@ -39,7 +38,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        App.instance.appComponent.inject(this)
+        App.appDependencyGraph.appComponent.inject(this)
     }
 
     override fun onCreateView(

@@ -26,7 +26,8 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     lateinit var imageLoader: ImageLoader<ImageView>
 
     private val presenter: UsersPresenter by moxyPresenter {
-        App.instance.appComponent.providesUsersPresenter()
+        App.instance.initUsersSubcomponent()
+        App.instance.usersSubcomponent?.usersPresenter()!!
     }
 
     private val usersAdapter by lazy {

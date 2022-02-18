@@ -39,7 +39,8 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
 
     private val presenter by moxyPresenter {
         val login = requireArguments().get(USER_LOGIN) as String
-        App.instance.appComponent.providesUserPresenterFactory().presenter(login)
+        App.instance.initReposSubcomponent()
+        App.instance.reposSubcomponent?.userPresenterFactory()?.presenter(login)!!
     }
 
     private var _binding: FragmentUserBinding? = null

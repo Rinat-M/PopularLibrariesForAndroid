@@ -62,3 +62,12 @@
 
 Что было сделано:
 Реализовал DI в проекте.
+
+# Домашнее задание 8.
+Завершите работу над курсовым проектом. Проект должен представлять собой клиент для любого REST API на ваш выбор. Примените в проекте все рассмотренные на курсе библиотеки и подходы. Если использовать в качестве образца проект, созданный на уроках, получится примерно то, что требуется.
+
+Что было сделано:
+1. Разделил RepositoryModule на 2 модуля: UsersModule и ReposModule. Под каждый из модулей был создан свой Subcomponent: UsersSubcomponent и ReposSubcomponent.
+2. Так как UserPresenter содержит ссылку на GithubReposRepository, пришлось перенести userPresenterFactory в ReposSubcomponent.
+3. Создал отдельный класс AppDependencyGraphImpl для работы с графом зависимостей. Закрыл его за интерфейсом AppDependencyGraph.
+4. Добавил view binding delegate.

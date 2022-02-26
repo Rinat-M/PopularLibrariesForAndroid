@@ -6,7 +6,7 @@ import com.rino.githubusers.database.entity.GithubUserMainInfoEntity
 import io.reactivex.rxjava3.core.Single
 
 @Dao
-interface UserDao {
+interface UsersDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(user: GithubUserEntity)

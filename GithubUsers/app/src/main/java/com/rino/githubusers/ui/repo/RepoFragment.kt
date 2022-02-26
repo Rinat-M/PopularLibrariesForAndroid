@@ -6,12 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.rino.githubusers.App
 import com.rino.githubusers.R
-import com.rino.githubusers.core.cache.GithubReposCacheImpl
 import com.rino.githubusers.core.model.GithubRepos
-import com.rino.githubusers.core.repository.GithubReposRepositoryImpl
 import com.rino.githubusers.databinding.FragmentReposBinding
-import com.rino.githubusers.network.GithubApiHolder
-import com.rino.githubusers.network.NetworkStatus
 import com.rino.githubusers.ui.base.BackButtonListener
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -34,17 +30,7 @@ class RepoFragment : MvpAppCompatFragment(), RepoView, BackButtonListener {
 
     private val presenter by moxyPresenter {
         val repoUrl = requireArguments().get(REPO_URL) as String
-        RepoPresenter(
-            repoUrl,
-            App.instance.router,
-            GithubReposRepositoryImpl(
-                GithubReposCacheImpl(
-                    NetworkStatus(requireContext()),
-                    GithubApiHolder.githubApiService,
-                    App.instance.database.reposDao
-                )
-            )
-        )
+        App.instance.appComponent.providesRepoPresenterFactory().presenter(repoUrl)
     }
 
     private var _binding: FragmentReposBinding? = null

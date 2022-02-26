@@ -4,49 +4,42 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rino.githubusers.App
-import com.rino.githubusers.core.cache.GithubUsersCacheImpl
 import com.rino.githubusers.core.model.GithubUser
-import com.rino.githubusers.core.repository.GithubUsersRepositoryImpl
 import com.rino.githubusers.databinding.FragmentUsersBinding
-import com.rino.githubusers.network.GithubApiHolder
-import com.rino.githubusers.network.NetworkStatus
-import com.rino.githubusers.screens.AndroidScreens
 import com.rino.githubusers.ui.base.BackButtonListener
-import com.rino.githubusers.ui.base.GlideImageCacheLoader
+import com.rino.githubusers.ui.base.ImageLoader
 import com.rino.githubusers.ui.showToast
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
 class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     companion object {
         fun newInstance() = UsersFragment()
     }
 
+    @Inject
+    lateinit var imageLoader: ImageLoader<ImageView>
+
     private val presenter: UsersPresenter by moxyPresenter {
-        UsersPresenter(
-            GithubUsersRepositoryImpl(
-                GithubUsersCacheImpl(
-                    NetworkStatus(requireContext()),
-                    GithubApiHolder.githubApiService,
-                    App.instance.database.userDao
-                )
-            ),
-            App.instance.router,
-            AndroidScreens()
-        )
+        App.instance.appComponent.providesUsersPresenter()
     }
+
     private val usersAdapter by lazy {
-        UsersAdapter(
-            GlideImageCacheLoader(App.instance.database.imagesDao),
-            presenter::onUserClicked
-        )
+        UsersAdapter(imageLoader, presenter::onUserClicked)
     }
 
     private var _binding: FragmentUsersBinding? = null
     private val binding get() = _binding!!
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        App.instance.appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

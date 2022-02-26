@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import com.rino.githubusers.database.converter.DateConverter
 import com.rino.githubusers.database.dao.ImagesDao
 import com.rino.githubusers.database.dao.ReposDao
-import com.rino.githubusers.database.dao.UserDao
+import com.rino.githubusers.database.dao.UsersDao
 import com.rino.githubusers.database.entity.CachedImage
 import com.rino.githubusers.database.entity.GithubRepoEntity
 import com.rino.githubusers.database.entity.GithubUserEntity
@@ -20,7 +20,7 @@ import com.rino.githubusers.database.entity.GithubUserEntity
 @TypeConverters(DateConverter::class)
 abstract class GithubDatabase : RoomDatabase() {
 
-    abstract val userDao: UserDao
+    abstract val usersDao: UsersDao
     abstract val reposDao: ReposDao
     abstract val imagesDao: ImagesDao
 

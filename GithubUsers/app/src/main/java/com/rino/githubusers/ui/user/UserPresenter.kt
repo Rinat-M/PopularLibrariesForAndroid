@@ -6,14 +6,16 @@ import com.rino.githubusers.core.model.GithubRepos
 import com.rino.githubusers.core.repository.GithubReposRepository
 import com.rino.githubusers.core.repository.GithubUsersRepository
 import com.rino.githubusers.screens.IScreens
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 
-class UserPresenter(
-    private val login: String,
-    private val usersRepository: GithubUsersRepository,
+class UserPresenter @AssistedInject constructor(
+    @Assisted private val login: String,
     private val router: Router,
     private val screen: IScreens,
+    private val usersRepository: GithubUsersRepository,
     private val githubReposRepository: GithubReposRepository
 ) : MvpPresenter<UserView>() {
 

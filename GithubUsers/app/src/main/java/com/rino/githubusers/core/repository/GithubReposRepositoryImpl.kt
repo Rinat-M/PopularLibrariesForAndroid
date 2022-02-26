@@ -2,12 +2,12 @@ package com.rino.githubusers.core.repository
 
 import com.rino.githubusers.core.cache.GithubReposCache
 import com.rino.githubusers.core.model.GithubRepos
-import com.rino.githubusers.network.GithubApiService
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
+import javax.inject.Inject
 
-class GithubReposRepositoryImpl(
+class GithubReposRepositoryImpl @Inject constructor(
     private val githubReposCache: GithubReposCache
 ) : GithubReposRepository {
 

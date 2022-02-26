@@ -12,8 +12,8 @@ android {
         applicationId "com.rino.githubusers"
         minSdk 28
         targetSdk 31
-        versionCode 18
-        versionName "1.4.1"
+        versionCode 23
+        versionName "1.5.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -80,6 +80,10 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.4.1'
     kapt 'androidx.room:room-compiler:2.4.1'
     implementation "androidx.room:room-rxjava3:2.4.1"
+
+    // Dagger 2
+    implementation 'com.google.dagger:dagger:2.40.5'
+    kapt 'com.google.dagger:dagger-compiler:2.40.5'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

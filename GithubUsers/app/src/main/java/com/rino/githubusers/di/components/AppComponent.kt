@@ -1,7 +1,7 @@
-package com.rino.githubusers.di.component
+package com.rino.githubusers.di.components
 
-import com.rino.githubusers.di.factory.RepoPresenterFactory
-import com.rino.githubusers.di.factory.UserPresenterFactory
+import com.rino.githubusers.di.factories.RepoPresenterFactory
+import com.rino.githubusers.di.factories.UserPresenterFactory
 import com.rino.githubusers.di.modules.*
 import com.rino.githubusers.ui.main.MainActivity
 import com.rino.githubusers.ui.main.MainPresenter
@@ -15,8 +15,7 @@ import javax.inject.Singleton
     modules = [
         NavigationModule::class,
         NetworkModule::class,
-        RepositoryModule::class,
-        CacheModule::class,
+        ImageModule::class,
         DatabaseModule::class,
         ContextModule::class
     ]
@@ -24,15 +23,13 @@ import javax.inject.Singleton
 @Singleton
 interface AppComponent {
 
+    fun usersSubcomponent(): UsersSubcomponent
+
     fun inject(mainActivity: MainActivity)
 
     fun inject(userFragment: UserFragment)
     fun inject(usersFragment: UsersFragment)
 
-    fun providesMainPresenter(): MainPresenter
-    fun providesUsersPresenter(): UsersPresenter
-
-    fun providesUserPresenterFactory(): UserPresenterFactory
-    fun providesRepoPresenterFactory(): RepoPresenterFactory
+    fun mainPresenter(): MainPresenter
 
 }

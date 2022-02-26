@@ -5,12 +5,14 @@ import com.rino.githubusers.database.dao.ReposDao
 import com.rino.githubusers.network.GithubApiService
 import com.rino.githubusers.network.NetworkStatus
 import io.reactivex.rxjava3.core.Single
+import javax.inject.Inject
 
-class GithubReposCacheImpl(
+class GithubReposCacheImpl @Inject constructor(
     private val networkStatus: NetworkStatus,
     private val githubApiService: GithubApiService,
     private val reposDao: ReposDao
 ) : GithubReposCache {
+
     override fun getUserReposByLogin(login: String): Single<List<GithubRepos>> {
         return networkStatus.isOnlineSingle
             .flatMap { isOnline ->

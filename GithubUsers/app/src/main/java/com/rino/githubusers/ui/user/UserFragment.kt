@@ -1,9 +1,7 @@
 package com.rino.githubusers.ui.user
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,13 +13,14 @@ import com.rino.githubusers.core.model.GithubUserDetailed
 import com.rino.githubusers.databinding.FragmentUserBinding
 import com.rino.githubusers.ui.base.BackButtonListener
 import com.rino.githubusers.ui.base.ImageLoader
+import com.rino.githubusers.ui.base.viewBinding
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
+class UserFragment : MvpAppCompatFragment(R.layout.fragment_user), UserView, BackButtonListener {
     companion object {
         private const val USER_LOGIN = "USER_ID"
 
@@ -37,13 +36,12 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
     @Inject
     lateinit var imageLoader: ImageLoader<ImageView>
 
+    private val binding: FragmentUserBinding by viewBinding()
+
     private val presenter by moxyPresenter {
         val login = requireArguments().get(USER_LOGIN) as String
-        App.instance.appComponent.providesUserPresenterFactory().presenter(login)
+        App.appDependencyGraph.reposSubcomponent.userPresenterFactory().presenter(login)
     }
-
-    private var _binding: FragmentUserBinding? = null
-    private val binding get() = _binding!!
 
     private val circularProgressDrawable by lazy {
         CircularProgressDrawable(requireContext()).apply {
@@ -61,16 +59,7 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        App.instance.appComponent.inject(this)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentUserBinding.inflate(inflater, container, false)
-        return binding.root
+        App.appDependencyGraph.appComponent.inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -114,11 +103,6 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackButtonListener {
 
     override fun updateUserRepos(githubRepos: List<GithubRepos>) {
         reposAdapter.submitList(githubRepos)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun backPressed() = presenter.backPressed()

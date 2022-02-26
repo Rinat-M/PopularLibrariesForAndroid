@@ -2,6 +2,7 @@ package com.rino.githubusers.ui.users
 
 import android.util.Log
 import com.github.terrakok.cicerone.Router
+import com.rino.githubusers.App
 import com.rino.githubusers.core.model.GithubUser
 import com.rino.githubusers.core.repository.GithubUsersRepository
 import com.rino.githubusers.screens.IScreens
@@ -12,7 +13,7 @@ import javax.inject.Inject
 class UsersPresenter @Inject constructor(
     private val router: Router,
     private val screens: IScreens,
-    private val usersRepositoryImpl: GithubUsersRepository
+    private val usersRepository: GithubUsersRepository
 ) : MvpPresenter<UsersView>() {
 
     companion object {
@@ -27,8 +28,13 @@ class UsersPresenter @Inject constructor(
         loadData()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        App.appDependencyGraph.destroyUsersScope()
+    }
+
     private fun loadData() {
-        usersDisposable = usersRepositoryImpl.getUsers()
+        usersDisposable = usersRepository.getUsers()
             .subscribe(
                 { users ->
                     viewState.updateList(users)

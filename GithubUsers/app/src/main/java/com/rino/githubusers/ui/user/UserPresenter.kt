@@ -2,6 +2,7 @@ package com.rino.githubusers.ui.user
 
 import android.util.Log
 import com.github.terrakok.cicerone.Router
+import com.rino.githubusers.App
 import com.rino.githubusers.core.model.GithubRepos
 import com.rino.githubusers.core.repository.GithubReposRepository
 import com.rino.githubusers.core.repository.GithubUsersRepository
@@ -16,7 +17,7 @@ class UserPresenter @AssistedInject constructor(
     private val router: Router,
     private val screen: IScreens,
     private val usersRepository: GithubUsersRepository,
-    private val githubReposRepository: GithubReposRepository
+    private val reposRepository: GithubReposRepository
 ) : MvpPresenter<UserView>() {
 
     companion object {
@@ -32,6 +33,11 @@ class UserPresenter @AssistedInject constructor(
         loadUserRepos()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        App.appDependencyGraph.destroyReposScope()
+    }
+
     private fun loadUserInfo() {
         userDisposable = usersRepository.getUserByLogin(login)
             .subscribe(
@@ -42,7 +48,7 @@ class UserPresenter @AssistedInject constructor(
     }
 
     private fun loadUserRepos() {
-        reposDisposable = githubReposRepository.getUserReposByLogin(login)
+        reposDisposable = reposRepository.getUserReposByLogin(login)
             .subscribe(
                 { repos -> viewState.updateUserRepos(repos) },
                 { throwable -> Log.e(TAG, throwable.stackTraceToString()) }

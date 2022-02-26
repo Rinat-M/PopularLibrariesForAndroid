@@ -1,23 +1,19 @@
 package com.rino.githubusers
 
 import android.app.Application
-import com.rino.githubusers.di.component.AppComponent
-import com.rino.githubusers.di.component.DaggerAppComponent
-import com.rino.githubusers.di.modules.ContextModule
+import com.rino.githubusers.di.AppDependencyGraph
+import com.rino.githubusers.di.AppDependencyGraphImpl
 
 class App : Application() {
-    companion object {
-        lateinit var instance: App
-    }
 
-    val appComponent: AppComponent by lazy {
-        DaggerAppComponent.builder()
-            .contextModule(ContextModule(this))
-            .build()
+    companion object {
+        const val TAG = "App"
+        lateinit var appDependencyGraph: AppDependencyGraph
     }
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
+        appDependencyGraph = AppDependencyGraphImpl(this)
     }
+
 }

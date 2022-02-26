@@ -6,13 +6,13 @@ import com.rino.githubusers.database.dao.UsersDao
 import com.rino.githubusers.network.GithubApiService
 import com.rino.githubusers.network.NetworkStatus
 import io.reactivex.rxjava3.core.Single
+import javax.inject.Inject
 
-class GithubUsersCacheImpl(
+class GithubUsersCacheImpl @Inject constructor(
     private val networkStatus: NetworkStatus,
     private val githubApiService: GithubApiService,
     private val usersDao: UsersDao
 ) : GithubUsersCache {
-
 
     override fun getUsers(): Single<List<GithubUser>> {
         return networkStatus.isOnlineSingle

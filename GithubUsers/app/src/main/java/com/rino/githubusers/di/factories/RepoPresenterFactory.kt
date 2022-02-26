@@ -1,4 +1,4 @@
-package com.rino.githubusers.di.factory
+package com.rino.githubusers.di.factories
 
 import com.rino.githubusers.ui.repo.RepoPresenter
 import dagger.assisted.AssistedFactory

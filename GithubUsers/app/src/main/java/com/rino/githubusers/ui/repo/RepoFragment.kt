@@ -1,20 +1,18 @@
 package com.rino.githubusers.ui.repo
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.rino.githubusers.App
 import com.rino.githubusers.R
 import com.rino.githubusers.core.model.GithubRepos
 import com.rino.githubusers.databinding.FragmentReposBinding
 import com.rino.githubusers.ui.base.BackButtonListener
+import com.rino.githubusers.ui.base.viewBinding
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import java.text.SimpleDateFormat
 import java.util.*
 
-class RepoFragment : MvpAppCompatFragment(), RepoView, BackButtonListener {
+class RepoFragment : MvpAppCompatFragment(R.layout.fragment_repos), RepoView, BackButtonListener {
 
     companion object {
         private const val REPO_URL = "REPO_URL"
@@ -28,24 +26,14 @@ class RepoFragment : MvpAppCompatFragment(), RepoView, BackButtonListener {
         }
     }
 
+    private val binding: FragmentReposBinding by viewBinding()
+
     private val presenter by moxyPresenter {
         val repoUrl = requireArguments().get(REPO_URL) as String
-        App.instance.appComponent.providesRepoPresenterFactory().presenter(repoUrl)
+        App.appDependencyGraph.reposSubcomponent.repoPresenterFactory().presenter(repoUrl)
     }
-
-    private var _binding: FragmentReposBinding? = null
-    private val binding get() = _binding!!
 
     private val simpleDateFormat by lazy { SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()) }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentReposBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun updateRepoInfo(githubRepos: GithubRepos) {
         with(binding) {
@@ -80,8 +68,4 @@ class RepoFragment : MvpAppCompatFragment(), RepoView, BackButtonListener {
 
     override fun backPressed(): Boolean = presenter.backPressed()
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
 }

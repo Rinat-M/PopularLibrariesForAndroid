@@ -20,7 +20,7 @@ class UsersPresenter @Inject constructor(
         private const val TAG = "UsersPresenter"
     }
 
-    private lateinit var usersDisposable: Disposable
+    private var usersDisposable: Disposable? = null
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -40,7 +40,7 @@ class UsersPresenter @Inject constructor(
                     viewState.updateList(users)
                 },
                 { throwable ->
-                    Log.e(TAG, throwable.stackTraceToString())
+//                    Log.e(TAG, throwable.stackTraceToString())
                     viewState.showMessage(throwable.message ?: "Can't load data")
                 }
             )
@@ -51,7 +51,7 @@ class UsersPresenter @Inject constructor(
     }
 
     fun backPressed(): Boolean {
-        usersDisposable.dispose()
+        usersDisposable?.dispose()
         router.exit()
         return true
     }
